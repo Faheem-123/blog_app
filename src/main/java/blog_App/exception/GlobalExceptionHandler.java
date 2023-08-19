@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -31,5 +32,13 @@ public class GlobalExceptionHandler {
 			map.put(fieldName, message);
 		});
 		return new ResponseEntity<Map<String,String>>(map,HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(UserAlreadyExistException.class)
+	public ProblemDetail handleAuthenticationException(UserAlreadyExistException e) {
+		ProblemDetail problemDetails = ProblemDetail
+				.forStatusAndDetail
+						(HttpStatus.INTERNAL_SERVER_ERROR,e.getLocalizedMessage());
+		return problemDetails;
 	}
 }

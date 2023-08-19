@@ -1,6 +1,6 @@
 package blog_App.controller;
 import java.util.List;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import blog_App.payloads.*;
 import blog_App.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;

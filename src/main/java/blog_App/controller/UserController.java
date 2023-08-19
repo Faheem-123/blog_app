@@ -1,16 +1,12 @@
 package blog_App.controller;
 
 import java.util.List;
-import java.util.Map;
-
-import javax.validation.Valid;
-
+import jakarta.validation.Valid;
 import blog_App.payloads.UserPostCategoryResponse;
 import blog_App.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,7 +31,7 @@ public class UserController {
 	private UserRepository userRepository;
 
 	//Create user with details
-	@PostMapping("/")
+	@PostMapping("/register")
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto){
 		UserDto createUserDto = this.userService.createUser(userDto);
 		return new ResponseEntity<>(createUserDto,HttpStatus.CREATED);

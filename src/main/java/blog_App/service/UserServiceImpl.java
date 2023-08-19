@@ -3,6 +3,7 @@ package blog_App.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import blog_App.entity.Role;
+import blog_App.exception.UserAlreadyExistException;
 import blog_App.repository.RoleRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto createUser(UserDto userDto) {
 		User user=this.userDtoToUser(userDto);
+		if(userRepository.existsByEmail(userDto.getEmail())){
+			throw new UserAlreadyExistException("Email already exist !! ");
+		}
 		User savedUser=this.userRepository.save(user);
 		return this.userToUserDto(savedUser);
 	}

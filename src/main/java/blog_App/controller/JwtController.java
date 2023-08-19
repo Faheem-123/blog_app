@@ -1,8 +1,7 @@
 package blog_App.controller;
 
 
-import javax.validation.Valid;
-
+import jakarta.validation.Valid;
 import blog_App.security.JwtRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,9 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import blog_App.payloads.UserDto;
-//import blog_App.security.JwtRequest;
 import blog_App.security.JwtResponse;
 import blog_App.security.JwtUtil;
 import blog_App.security.UserDetailServiceImpl;

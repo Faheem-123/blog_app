@@ -11,8 +11,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-//import blog_App.entity.Role;
-//import blog_App.repository.RoleRepository;
 import blog_App.utils.AppConstants;
 
 @SpringBootApplication

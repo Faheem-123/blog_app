@@ -14,4 +14,6 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	@Query("select new blog_App.payloads.UserPostCategoryResponse(u.username, p.title, c.categoryTitle) " +
 			"from User u JOIN u.posts p JOIN p.category c")
 	public List<UserPostCategoryResponse> getUserPostCategoryDetail();
+
+	Boolean existsByEmail(String email);
 }
