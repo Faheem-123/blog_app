@@ -1,6 +1,13 @@
 package blog_App.controller;
 
 
+import blog_App.entity.UserOtp;
+import blog_App.payloads.*;
+import blog_App.service.EmailService;
+import blog_App.service.PasswordService;
+import blog_App.service.UserOtpService;
+import blog_App.utils.CommonUtil;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import blog_App.security.JwtRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,21 +17,22 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import blog_App.payloads.UserDto;
+import org.springframework.web.bind.annotation.*;
 import blog_App.security.JwtResponse;
 import blog_App.security.JwtUtil;
 import blog_App.security.UserDetailServiceImpl;
 import blog_App.service.UserService;
+
+import java.text.SimpleDateFormat;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/auth")
 public class JwtController {
-
+    @Autowired
+    private EmailService emailService;
+@Autowired
+private UserOtpService userOtpService;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -33,6 +41,8 @@ public class JwtController {
     private JwtUtil jwtUtil;
     @Autowired
     private UserService userService;
+    @Autowired
+    private PasswordService passwordService;
 
     //Generate token using username and password
     @PostMapping("/token")
@@ -57,4 +67,47 @@ public class JwtController {
 		UserDto regUserDto = this.userService.registerNewUser(userDto);
 		return new ResponseEntity<>(regUserDto,HttpStatus.CREATED);
 	}
+
+    @PostMapping("/update-password/{email}")
+    public ResponseEntity<ApiResponse> updatePassword(@RequestBody UpdatePasswordRequest request, @PathVariable String email) {
+        ApiResponse response = passwordService.updatePassword(request,email);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/forgot-password")
+    public String sendOtp(@RequestParam("email") String email, HttpSession session) {
+        String otp = CommonUtil.getRandomOTP(6);
+        System.out.println(otp);
+        //code for otp send to email
+        String to=email;
+        String subject="OTP generate";
+        String content="Here is your OTP !!"+otp+" ";
+        boolean f=  emailService.sendEmail(subject,content,to);
+        if(f){
+            String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());
+            UserOtp userOtp=new UserOtp();
+            userOtp.setOtp(otp);
+            userOtp.setEmail(email);
+            userOtp.setOtpTime(timeStamp);
+            userOtp.setStatus(1);
+            this.userOtpService.saveOtp(userOtp);
+//          session.setAttribute("sessionEmail",email);
+//          session.setAttribute("sessionOTP",otp);
+            return "OTP sent to your email!!";
+        }else {
+            return "Your email id is not right!!";
+        }
+    }
+
+    @PostMapping("/verify-otp")
+    public ResponseEntity<ApiResponse> verifyOTP(@RequestBody ValidateOtpRequest request) {
+        ApiResponse response = passwordService.validateOtp(request);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/change-password/{email}")
+    public ResponseEntity<ApiResponse> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest, @PathVariable String email) {
+        ApiResponse response = passwordService.changePassword(changePasswordRequest,email);
+        return ResponseEntity.ok(response);
+    }
 }

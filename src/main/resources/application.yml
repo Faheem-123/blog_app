@@ -1,0 +1,14 @@
+
+email:
+    host: 'mail.royalcyber.org'
+    protocol: 'smtp'
+    auth: 'true'
+    socketFactoryPort: '995'
+    timeout: '10000'
+    checkServerIdentity: 'false'
+    trust: '*'
+    connectionTimeout: '10000'
+    debug: 'true'
+    fallback: 'false'
+    user: 'securaapi@royalcyber.org'
+    password : 'Cyber@2025!'
