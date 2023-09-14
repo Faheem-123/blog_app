@@ -1,6 +1,10 @@
 package blog_App.controller;
 
 import java.util.List;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import blog_App.payloads.UserPostCategoryResponse;
 import blog_App.repository.UserRepository;
@@ -24,6 +28,7 @@ import blog_App.service.UserService;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "UserController",description = "APIs for User !!")
 public class UserController {
 	@Autowired
 	private UserService userService;
@@ -32,6 +37,12 @@ public class UserController {
 
 	//Create user with details
 	@PostMapping("/register")
+	@Operation(summary = "Create new user !!",description = "This is user created API !!")
+	@ApiResponses(value = {
+			@io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "SUCCESS | OK"),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "401", description = "Unauthorized"),
+			@io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "New user created")
+	})
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto){
 		UserDto createUserDto = this.userService.createUser(userDto);
 		return new ResponseEntity<>(createUserDto,HttpStatus.CREATED);

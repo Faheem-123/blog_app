@@ -5,9 +5,12 @@ import blog_App.payloads.ResponseFile;
 import blog_App.payloads.ResponseMessage;
 import blog_App.service.FilesStorageService;
 import blog_App.service.FilesStorageServiceImpl;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +33,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api")
+@Tag(name = "FilesController",description = "APIs for Files !!")
 public class FilesController {
     @Autowired
     FilesStorageService storageService;
@@ -39,12 +43,21 @@ public class FilesController {
         String message = "";
         try {
             storageService.save(file);
-
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
         } catch (Exception e) {
             message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+        }
+    }
+
+    @PostMapping("/uploads")
+    public ResponseEntity<ResponseMessage> uploadFiles(@RequestParam("files") MultipartFile[] files) {
+        try {
+            storageService.saveFiles(files);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Files uploaded successfully:"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage("Could not upload the files: Please check file format or avoid file repetition !! "));
         }
     }
 

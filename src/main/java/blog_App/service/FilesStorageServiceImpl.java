@@ -8,6 +8,7 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.stream.Stream;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -33,11 +34,22 @@ public class FilesStorageServiceImpl implements FilesStorageService{
         try {
             Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
         } catch (Exception e) {
-            if (e instanceof FileAlreadyExistsException) {
-                throw new RuntimeException("A file of that name already exists.");
-            }
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    @Override
+    public void saveFiles(MultipartFile[] files) {
+        Arrays.stream(files).forEach(multipartFile -> {
+            try {
+                Files.copy(multipartFile.getInputStream(), this.root.resolve(multipartFile.getOriginalFilename()));
+            } catch (IOException e) {
+                if (e instanceof FileAlreadyExistsException) {
+                throw new RuntimeException("A file of that name already exists.");
+            }
+                throw new RuntimeException(e.getMessage());
+            }
+        });
     }
 
     @Override

@@ -7,6 +7,7 @@ import blog_App.service.EmailService;
 import blog_App.service.PasswordService;
 import blog_App.service.UserOtpService;
 import blog_App.utils.CommonUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import blog_App.security.JwtRequest;
@@ -28,6 +29,7 @@ import java.text.SimpleDateFormat;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "JwtController",description = "APIs for JwtController !!")
 public class JwtController {
     @Autowired
     private EmailService emailService;

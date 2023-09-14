@@ -1,5 +1,6 @@
 package blog_App.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import blog_App.service.CommentService;
 
 @RestController
 @RequestMapping("/api")
+@Tag(name = "CommentController",description = "APIs for Comment !!")
 public class CommentController {
 
 	@Autowired

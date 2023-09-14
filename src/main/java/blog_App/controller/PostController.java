@@ -1,5 +1,7 @@
 package blog_App.controller;
 import java.util.List;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import blog_App.payloads.*;
 import blog_App.repository.PostRepository;
@@ -22,6 +24,7 @@ import blog_App.utils.AppConstants;
 
 @RestController
 @RequestMapping("/api")
+@Tag(name = "PostController",description = "APIs for Post !!")
 public class PostController {
 	@Autowired
 	private PostService postService;
