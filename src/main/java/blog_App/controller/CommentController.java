@@ -1,5 +1,6 @@
 package blog_App.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -19,6 +20,7 @@ import blog_App.service.CommentService;
 @RestController
 @RequestMapping("/api")
 @Tag(name = "CommentController",description = "APIs for Comment !!")
+@SecurityRequirement(name="securityScheme")
 public class CommentController {
 
 	@Autowired

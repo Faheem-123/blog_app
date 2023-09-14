@@ -4,6 +4,7 @@ import java.util.List;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import blog_App.payloads.UserPostCategoryResponse;
@@ -29,6 +30,7 @@ import blog_App.service.UserService;
 @RestController
 @RequestMapping("/api/users")
 @Tag(name = "UserController",description = "APIs for User !!")
+@SecurityRequirement(name="securityScheme")
 public class UserController {
 	@Autowired
 	private UserService userService;

@@ -3,6 +3,7 @@ import blog_App.entity.EmailRequest;
 import blog_App.payloads.EmailResponse;
 import blog_App.service.EmailService;
 import blog_App.utils.EmailUtil;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1")
 @Tag(name = "EmailController",description = "APIs for Email !!")
+@SecurityRequirement(name="securityScheme")
 public class EmailController {
     @Autowired
     private EmailService emailService;

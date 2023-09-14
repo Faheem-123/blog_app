@@ -4,41 +4,73 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@SecurityScheme(
+		name = "securityScheme",
+		type = SecuritySchemeType.HTTP,
+		bearerFormat = "JWT",
+		scheme = "bearer"
+
+)
+@OpenAPIDefinition(
+		info = @Info(
+				title = "Spring Boot Data JPA API",
+				description = "Spring boot application",
+				version = "v0.0.1",
+				contact = @Contact(
+						name = "Faheem Ali",
+						email = "faheempanhwar62@gmail.com"
+				),
+				license = @License(
+						name = "Apache 2.0",
+						url = "http://springdoc.org"
+				)
+		),
+		externalDocs = @ExternalDocumentation(
+				description = "SpringShop Wiki Documentation",
+				url = "https://springshop.wiki.github.org/docs"
+		)
+)
 public class SwaggerConfig {
-	@Bean
-	public OpenAPI springShopOpenAPI() {
-		String securityScheme="bearerScheme";
-		return new OpenAPI()
-				.addSecurityItem(new SecurityRequirement()
-						.addList(securityScheme)
-				)
-				.components(new Components()
-						.addSecuritySchemes(securityScheme, new SecurityScheme()
-								.name(securityScheme)
-								.type(SecurityScheme.Type.HTTP)
-								.bearerFormat("JWT")
-								.scheme("bearer")
-						)
-				)
-				.info(new Info().title("Spring Boot Data JPA API")
-						.description("Spring boot application")
-						.version("v0.0.1")
-						.license(new License().name("Apache 2.0").url("http://springdoc.org")))
-				.externalDocs(new ExternalDocumentation()
-						.description("SpringShop Wiki Documentation")
-						.url("https://springshop.wiki.github.org/docs"));
-	}
+
+	//this is replacing by annotation
+
+//	@Bean
+//	public OpenAPI springShopOpenAPI() {
+//		String securityScheme="bearerScheme";
+//		return new OpenAPI()
+//				.addSecurityItem(new SecurityRequirement()
+//						.addList(securityScheme)
+//				)
+//				.components(new Components()
+//						.addSecuritySchemes(securityScheme, new SecurityScheme()
+//								.name(securityScheme)
+//								.type(SecurityScheme.Type.HTTP)
+//								.bearerFormat("JWT")
+//								.scheme("bearer")
+//						)
+//				)
+//				.info(new Info().title("Spring Boot Data JPA API")
+//						.description("Spring boot application")
+//						.version("v0.0.1")
+//						.license(new License().name("Apache 2.0").url("http://springdoc.org")))
+//				.externalDocs(new ExternalDocumentation()
+//						.description("SpringShop Wiki Documentation")
+//						.url("https://springshop.wiki.github.org/docs"));
+//	}
 
 //	public static final String AUTHORIZATION_HEADER = "Authorization";
 

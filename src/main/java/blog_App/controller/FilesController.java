@@ -5,6 +5,7 @@ import blog_App.payloads.ResponseFile;
 import blog_App.payloads.ResponseMessage;
 import blog_App.service.FilesStorageService;
 import blog_App.service.FilesStorageServiceImpl;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RestController
 @RequestMapping("/api")
 @Tag(name = "FilesController",description = "APIs for Files !!")
+@SecurityRequirement(name="securityScheme")
 public class FilesController {
     @Autowired
     FilesStorageService storageService;
