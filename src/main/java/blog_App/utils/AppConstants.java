@@ -17,6 +17,8 @@ public class AppConstants {
 			"/webjars/**",
 			"/api/upload",
 			"/api/uploads",
+			"/api/uploadFile",
+			"/api/downloadFile/**",
 			"/api/v1/email"
 	};
 }
